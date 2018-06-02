@@ -1,0 +1,13 @@
+Package: dieroller
+Type: Package
+Title: Simulates rolling a die
+Version: 0.1.0
+Author: Sofia Guo
+Maintainer: sofia Guo <sofiaguo@berkeley.edu>
+Description: Contains functions for simulating rolling a die with
+    two classes of objects: regular die with 6 sides and object "roll"
+    rolls of a die
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1

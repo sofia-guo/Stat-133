@@ -1,0 +1,41 @@
+---
+title: "Vignette to dieroller"
+author: "Sofia Guo"
+date: "April 27, 2018"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dieroller)
+```
+
+# Die Rolling
+
+The package 'dieroller' simulates rolling a die a given number of times and visualizes frequencies for each side of the die.
+
+# Making a dice
+
+You can make a die with the default fair die setting
+
+```{r}
+die()
+```
+
+# Rolling a dice
+
+You can roll a die to see what the outcomes are using summary(roll)
+
+```{r}
+roll(die(), 50)
+summary(roll(die(), 50))
+```
+
+# Plotting frequencies
+
+You can visualize the frequencies using plot
+
+```{r}
+plot(roll(die(), 50))
+```
+

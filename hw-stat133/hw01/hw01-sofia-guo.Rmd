@@ -1,0 +1,223 @@
+---
+title: "hw01-sofia-guo"
+author: "Sofia"
+date: "February 14, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#2) Data Import
+```{r}
+#Create character vector to give columns names
+library(readr)
+setwd("C:/Users/Sammy/Desktop/hw-stat133/hw01")
+read_csv('imports-85.data')
+names <- c('symboling', 
+           'normalized_losses', 
+           'make', 
+           'fuel_type',
+           'aspiration',
+           'num_of_doors',
+           'body_style',
+           'drive_wheels',
+           'engine_location',
+           'wheel_base',
+           'length',
+           'width',
+           'height',
+           'curb_weight',
+           'engine_type',
+           'num_of_cylinders',
+           'engine_size',
+           'fuel_system',
+           'bore',
+           'stroke',
+           'compression_ratio',
+           'horsepower',
+           'peak_rpm',
+           'city_mpg',
+           'highway_mpg',
+           'price')
+#Use read.csv to import the data
+classes <- c('numeric',
+             'numeric',
+             'character',
+             'character',
+             'character',
+             'character',
+             'character',
+             'character',
+             'character',
+             'numeric',
+             'numeric',
+             'numeric',
+             'numeric',
+             'integer',
+             'character',
+             'character',
+             'integer',
+             'character',
+             'numeric',
+             'numeric',
+             'numeric',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer'
+             )
+import <- read.csv('imports-85.data', col.names = names, na.strings = '?', colClasses = classes)
+str(import)
+
+#Use read_csv to import the data
+read_csv('imports-85.data', col_names = names)
+typescsv <- c('ddcccccccddddiccicdddiiiii')
+importcsv <- read_csv('imports-85.data', col_names = names, col_types = typescsv)
+str(importcsv)
+
+```
+#3) Technical Questions about importing data
+
+a. For the numerical values, the function takes the first value in each column preceded by an x and makes that the name of the column. For the character columns, the function takes the first character entry in each column as the name of the column.
+
+b. The function takes the index of each column and puts a "v" in front of each one to make a name for the column.
+
+c. For the read_csv function, it automatically sets missing values to NA without me having to specify which symbol is a missing value. However, for the read.csv function, if I don't specify the symbol for the missing value, the function does not complete because it gets confused (in my error message it states "expected 'a real', got'?'") and doesn't complete the assignment of data types.
+
+d. The data frame imported in the second option is bigger because it holds more information that you specified (the data type of each column) than the unspecified version, where the read function has default settings that take up less memory than longer, more complex information. The specified data frame not only has to hold the original data type information but also the new specified conversion.
+
+e. Converting dat into an R matrix will coerce all the data values into a single data type, as matrices in R are atomic structures (all data must be the same type) whereas your original data frame is made of lists, which is non-atomic and can hold different data types in the same frame.
+
+#4) Practice base plotting
+```{r}
+#Histogram with color, red
+hist(import$price, col = 'red')
+```
+Description: Skewed right histogram of car prices
+```{r}
+#Horizontal Boxplot
+boxplot(import$horsepower, plot = TRUE, horizontal = TRUE)
+```
+Description: Boxplot of each car's horsepower showing a median around 95, max around 180 and min around 50.
+```{r}
+#Barplot by body style
+library(magrittr)
+library(dplyr)
+body_style_grouped <- import %>% mutate(count = 1) %>% group_by(body_style) %>% summarize(sum = sum(count))
+decreasing <- arrange(body_style_grouped, desc(sum))
+barplot(decreasing$sum, names.arg = decreasing$body_style)
+```
+Description: Barplot of number of each body style in the data frame showing sedans as most common and convertibles as least common.
+```{r}
+#stars() plot of vehicles with turbo aspiration using only variables wheel-base, length, width, height and price
+import %>% filter(aspiration == 'turbo') %>% select(wheel_base, length, width, height, price) %>% stars()
+```
+Description: Stars plot showing each "turbo" aspiration car's plot of wheel base, length, width, height and price.
+
+#5) Summaries:
+```{r}
+#a. mean price of gas and diesel cars
+import %>% filter(fuel_type == 'gas') %>% summarize(meanprice = mean(price, na.rm = TRUE))
+import %>% filter(fuel_type == 'diesel') %>% summarize(meanprice = mean(price, na.rm = TRUE))
+#b. make of 12 cylinder car
+import %>% filter(num_of_cylinders == 'twelve') %>% select(make)
+#c. make that has the most diesel cars
+import %>% mutate(count = 1) %>% filter(fuel_type == 'diesel') %>% group_by(make) %>% summarize(sum = sum(count)) %>% arrange(desc(sum)) %>% slice(1) %>% select(1)
+#d. price of the car with greatest horsepower
+import %>% arrange(desc(horsepower)) %>% slice(1) %>% select(price)
+#e. bottom 10th percentile of city_mpg
+cityquant <- quantile(import$city_mpg, probs = seq(0, 1, by= 0.1))
+cityquant[2]
+#f. top 10th percentile of highway_mpg
+highquant <- quantile(import$highway_mpg, probs = seq(0, 1, by= 0.1))
+highquant[9]
+#g. median price of cars in bottom 10th percentile of city_mpg
+import %>% arrange(desc(city_mpg)) %>% filter(city_mpg <= cityquant[2]) %>% summarize(mediancars = median(price, na.rm = TRUE))
+```
+
+#6) Technical Questions about data frames
+a. The function outputs a NULL value.
+
+b. mtcars[ ,mpg]
+
+c. Without the quotations around mpg signaling the program that mpg is a character, it interprets just mpg as a named object, which is undefined (as the column name in the data fram is part of a list, not an object on its own).
+
+d. NO, you can't add a list (which is what rows are in a data frame) as a column unless the list contains all data of the same type (which then it would be an atomic vector). This is because data frame columns must each have a single type of data, so adding a list with different data types as a column would not be possible.
+
+e. as.list(mtcars) coerces the data frame into a list of multiple vectors (separates out each column into a vector).
+
+f. To convert abc into a data frame, you would use the function data.frame(abc).
+
+#7) Correlations of quantitative variables
+```{r}
+#compute matrix of correlations between rest of quantitative variables
+quant1 <- import[ ,-(1:2)] #take out first two columns
+quant <- quant1[ , c(8:12, 15, 18, 20:24)] #select all other numerical columns
+quant2 <- as_tibble(quant) #for checking variables
+#omit NA values
+quant3 <- na.omit(quant2)
+#correlation matrix
+qdat <- cor(quant3)
+#Corrplot 1
+library(corrplot)
+corrplot(qdat, type='lower', order = 'hclust', tl.srt=45)
+#Corrplot 2
+corrplot(qdat, method='pie')
+```
+Comments on the correlation plots:
+a. In the first correlogram, we notice that almost uniformly, all car-dimensions and specs (horsepower, engine size, length, width, weight) are strongly negatively correlated with city and highway miles per gallon. This type of correlation suggests that cars in this dataset which have more horsepowe and are larger tend to have the lowest city and highway miles per gallon. Something interesting to note is also that price is strongly negatively correlated with both mpg's- suggesting that the bigger cars may in fact happen to be more expensive.
+
+b. In the second correlogram, the pie displays give a little more specificity in regards to each degree of correlation (whereas the first diagram used the saturation of color as a sign of correlation level). We can try to zoom in on the pies for price vs city and highway mpg's and notice that they are only slightly less in magnitude of correlation than horsepower and curb_weight. So this diagram is useful in breaking down the general observation that dimensions and specs are strongly correlated with fuel efficiency.
+
+#8) Principal Component Analysis
+```{r}
+#load relevant libraries
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(FactoMineR)
+library(stats)
+
+#perform PCA on qdat
+pca_qdat <- prcomp(qdat, scale. =TRUE)
+eigenvalues <- pca_qdat$sdev^2
+loadings <- pca_qdat$rotation
+scores <- pca_qdat$x 
+#examine eigenvalues to look at variability captured by each score
+eigs <- eigenvalues
+eigs_perc <- 100 * eigs / sum(eigs)
+eigs_cum <- cumsum(eigs_perc)
+
+eigs_df <- data.frame(
+  eigenvalue = eigs,
+  percentage = eigs_perc,
+  'cumulative percentage' = eigs_cum
+)
+print(round(eigs_df, 4), print.gap=2)
+#bar chart of eigenvalues
+barplot(eigs, border = NA, las = 1, names.arg = paste('PC', 1:ncol(qdat)), 
+        main = 'Bar-chart of eigenvalues')
+```
+a. About 96.7% of the variation in the data is captured by the first 3 PC's.
+
+##Visualizing observations
+```{r}
+#scatterplot of first two PC variables
+plot(pca_qdat$x, type = "n", las = 1) 
+abline(h = 0, v = 0)
+points(pca_qdat$x[ ,1], pca_qdat$x[ ,2], pch = 19, 
+       col = "#88888877")
+title(main = "PC Plot of Vehicles")
+#scatterplot of first two loadings (eigenvalues)
+plot(pca_qdat$x, type = "n", las = 1)
+abline(h = 0, v = 0)
+points(pca_qdat$rotation[ ,1], pca_qdat$rotation[ ,2], pch = 19, 
+       col = "#88888877")
+title(main = "PC Plot of Variables")
+#biplot of the variables
+biplot(pca_qdat, scale = 0.1, pch = 19)
+```
+a. The first scatter plot of the Vehicles is much more spread out, while the second scatter plot is concentrated around the origin. The third plot describes the negative strength of correlation between certain variables, which is clear between mpg vs engine size/price, as we initially saw with the correlation graph.

@@ -1,0 +1,89 @@
+---
+title: "hw03-sofia-guo"
+author: "Sofia"
+date: "March 21, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, error = TRUE, fig.path = 'images/')
+```
+
+#Piping
+##2.1)
+```
+#Unique team names redirected to text file team-names.txt
+cut -d "," -f 2 nba2017-roster.csv |tail +2 | sort -u > team-names.txt
+head team-names.txt
+```
+
+#2.2)
+```
+#Unique positions
+cut -d "," -f 2 nba2017-roster.csv | tail +2 | sort -u > position-names.txt
+head position-names.txt
+```
+
+#2.3)
+```
+#counts of different experience values, displayed largest to smallest
+cut -d "," -f 7 nba2017-roster.csv |tail +2 | sort -n| uniq -c > experience-counts.txt
+
+```
+#2.4)
+```
+#create csv file LAC.csv with data for LAC team, including column names. use cat to display data
+egrep "LAC|team" nba2017-roster.csv > LAC.csv
+cat LAC.csv
+```
+
+#2.5)
+```
+#Write pipeline to display age freq of LAL players
+ grep "LAL" nba2017-roster.csv | cut -d "," -f 6 | sort -n | uniq -c
+```
+#2.6)
+```
+#Write pipeline to find number of players in CLE team; output should just be number of players
+grep "CLE" nba2017-roster.csv | cut -d "," -f 2 | uniq -c
+```
+
+#2.7)
+```
+#Write pipelines to create a CSV file gsw-height-weight.csv containing player, height and weight of GSW
+egrep "GSW|team" nba2017-roster.csv | cut -d "," -f1,4,5 > gsw-height-weight.csv
+```
+
+#2.8) 
+```
+#Write pipelines to create file top10-salaries.csv containing top 10 player salaries arranged by salary from largest to smallest
+cut -d "," -f 1,8 nba2017-roster.csv | sort -t "," -k 2,2 -n -r > top10-salaries.csv
+```
+
+#3) sourcing R script
+```{r}
+source('C:/Users/Sammy/Desktop/hw-stat133/hw03/code/binomial-functions.R')
+```
+
+#calculate probabilities
+```{r}
+#prob get 3 sixes in 10 rolls
+bin_probability(10, 3, 1/6)
+
+#dist of 3 sixes in 10 rolls of loaded die p = 0.25
+bin_distribution(10, 0.25)
+library(ggplot2)
+ggplot(bin_distribution(10, 0.25), aes(success, probability)) + geom_point()
+
+#prob of more than 3 heads in 5 tosses with biased coin 0.35 chance heads
+for (i in 4:5) {
+    x <- bin_probability(5, i, 0.35) 
+}
+x
+
+#probability dist of number of head when tossing loaded coin 15 times with 0.35 chance heads; make plot
+bin_distribution(15, 0.35)
+ggplot(bin_distribution(15, 0.35), aes(success, probability)) + geom_point()
+```
+
+

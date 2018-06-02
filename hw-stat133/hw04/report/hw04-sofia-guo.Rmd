@@ -1,0 +1,80 @@
+---
+title: "hw04-sofia-guo"
+author: "Sofia"
+date: "April 13, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, error = TRUE, fig.path = 'images/')
+```
+
+#1.4) Archive of Stringr
+```{r}
+library(XML)
+library(readr)
+library(dplyr)
+library(magrittr)
+library(stringr)
+library(ggplot2)
+
+#source functions
+source('../code/archive-functions.R')
+raw_data <- read_archive('stringr')
+clean_data <- clean_archive(raw_data)
+plot_archive(clean_data)
+
+#all data on one plot
+combined <- group_by(rbind(clean_data, clean_data_dplyr, clean_data_ggplot2, clean_data_knitr, clean_data_xml), name)
+
+#Combined graph
+ggplot(combined, aes(date, size), scales = free) + geom_step(combined, mapping=aes(date, size))
+
+#Facetted graph
+ggplot(combined, aes(date, size)) + geom_step(combined, mapping=aes(date, size)) + facet_wrap(~name)
+```
+
+#2) Regex Functions
+```{r}
+source('../code/regex-functions.R')
+
+#Splitting Characters
+split_chars('Go Bears!')
+split_chars('Expecto Patronum')
+
+#Number of Vowels
+vec <- split_chars('Go Bears!')
+num_vowels(vec)
+
+#Counting Vowels
+count_vowels("The quick brown fox jumps over the lazy dog")
+count_vowels("THE QUICK BROWN FOX JUMPS OVER THE LAXY DOG")
+
+#reversing characters
+reverse_chars('gattaca')
+reverse_chars('Lumox Maxima')
+
+#Reversing sentences by Words
+reverse_words("sentence! this reverse")
+reverse_words('string')
+```
+
+#3) Data Emotion in Text
+```{r}
+#read csv
+tweet <- read.csv('../data/text-emotion.csv', stringsAsFactors = FALSE)
+sum_tweet <- summary(nchar(tweet$content))
+sum_tweet
+
+#histogram
+hist(sum_tweet)
+
+#3.2) Number of mentions
+content <- str_c(tweet$content, sep = "", collapse = TRUE)
+str_count(content, '@')
+
+#3.3) Hashtags
+str_count(content, '#')
+```
+
+
