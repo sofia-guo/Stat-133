@@ -1,0 +1,256 @@
+---
+title: "Lab09"
+author: "Sofia"
+date: "March 22, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE, eval = TRUE)
+```
+#Tests for stat_range()
+```{r}
+library(testthat)
+source('functions.R')
+#create basic function to compute the overall range of numeric vector
+#' @title stat_range
+#' @description computes the range of a numeric vector
+#' @input a numeric vector
+#' @output the range value (max-min)
+stat_range <- function(x) {
+  return(max(x) - min(x))
+}
+
+test_file('tests.R')
+
+
+```
+
+#Basics of String Manipulation
+```{r}
+states <- rownames(USArrests)
+#number of characters
+nchar(states)
+
+#to lower case
+tolower(states)
+
+#to upper case
+toupper(states)
+
+#case folding (upper = TRUE)
+casefold(states, upper = TRUE)
+
+#case folding (upper = FALSE)
+casefold(states, upper = FALSE)
+
+#Length of state names
+num_chars <- nchar(states)
+
+#frequency table
+char_freqs <- data.frame(num_chars)
+#barchart of num of characters
+barplot(char_freqs$num_chars)
+
+#Pasting strings
+#paste names with their num of chars
+paste(head(states), head(num_chars), sep = ' = ', collapse = '')
+
+#Substrings
+#shorten state names with first 2 characters
+substr(states, 1, 3)
+
+#shorten state names using last 3 letters
+substr(states, num_chars-2, num_chars)
+
+#shorten state names using first letter and last 3
+first <- substr(states, 1, 1)
+last3 <- substr(states, num_chars-2, num_chars)
+
+paste(first, last3, sep = '')
+
+#Challenge
+
+```
+#Converting from FH to C
+```{r}
+to_celsius <- function(x = 1) {
+  (x - 32) * (5/9)
+}
+
+to_kelvin <- function(x = 1) {
+  (x + 459.67) * (5/9)
+}
+
+to_reaumur <- function(x = 1) {
+  (x - 32) * (4/9)
+}
+
+to_rankine <- function(x = 1) {
+  x + 459.67
+}
+
+#Rewrite temp_convert such that argument to can be given in upper or lower case
+temp_convert <- function(x = 1, to = "celsius" | 'Celsius' | 'CELSIUS') {
+  switch(to,
+         "celsius" = to_celsius(x),
+         "kelvin" = to_kelvin(x),
+         "reaumur" = to_reaumur(x),
+         "rankine" = to_rankine(x))
+}
+
+temp_convert(30, 'celsius')
+temp_convert(30, 'Celsius')
+temp_convert(30, 'CELSIUS')
+```
+
+#Names of Files
+```{r}
+#vector of filenames
+num_files <- seq(1, 10)
+name_files <- rep('file', 10)
+file_vector <- paste(name_files, num_files, '.csv', sep ='')
+paste0(name_files, num_files, '.csv', sep='')
+
+#rename vector of file names
+gsub('file', 'dataset', file_vector)
+
+```
+
+#Using function cat()
+```{r}
+#modify script such that content looks like yaml header of .rmd file
+# name of output file
+outfile <- "output.txt"
+
+# writing to 'outfile.txt'
+cat("---", file = outfile)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("title: Output for lab09", file = "output.txt", append = TRUE)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("Author: Sofia Guo",
+    file = outfile, append = TRUE)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("Date: 3-27-2018",
+    file = outfile, append = TRUE)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("Output: html_document",
+    file = outfile, append = TRUE)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("---",
+    file = outfile, append = TRUE)
+# insert 2 new lines
+cat("\n\n", file = outfile, append = TRUE)
+cat("This is the first line",
+    file = outfile, append = TRUE)
+# insert new line
+cat("\n", file = outfile, append = TRUE)
+cat("A 2nd line", file = "output.txt", append = TRUE)
+# insert 2 new lines
+cat("\n\n", file = outfile, append = TRUE)
+cat("\nThe quick brown fox jumps over the lazy dog\n",
+    file = outfile, append = TRUE)
+```
+#Valid Color Names
+```{r}
+#' @title is_color
+#' @description determines if input is a color recognized by r
+#' @input a character string
+#' @output TRUE if color is in r, FALSE if not
+is_color <- function(x) {
+  valid <- colors(distinct = FALSE)
+  if (x %in% valid) {
+    return(TRUE)
+  }
+  else {
+    return(FALSE)
+  }
+}
+
+# test it:
+is_color('yellow')  # TRUE
+
+is_color('blu')     # FALSE
+
+is_color('turkuoise') # FALSE
+
+```
+#Plot with a valid color
+```{r}
+library(ggplot2)
+#' @title colplot
+#' @description produce simple scatter plot with random numbers
+#' @input col, a character string
+#' @output scatterplot with title "testing color x", if not valid, show error "invalid color x"
+colplot <- function(x) {
+  vec_numbers <- seq(1, 100)
+  if (is_color(x) == TRUE) {
+  return(ggplot(vec_numbers, aes(runif(vec_numbers), runif(vec_numbers))) + geom_point() + ggtitle(c('Testing color', x))
+  }
+  else {
+    return(c('invalid color' x))
+  }
+}
+# this should plot
+colplot('tomato')
+
+# this stops with error message
+colplot('tomate')
+
+```
+#Counting number of vowels
+```{r}
+# random vector of letters
+set.seed(1)
+letrs <- sample(letters, size = 100, replace = TRUE)
+head(letrs)
+
+#Count number of vowels in letrs
+vowels <- c('a', 'e', 'i', 'o', 'u')
+which(letrs == vowels)
+
+#count consonants
+consonants <- c('b', 'c', 'd',
+                'f',
+                'g',
+                'h',
+                'j',
+                'k',
+                'l',
+                'm',
+                'n',
+                'p',
+                'q',
+                'r',
+                's',
+                't',
+                'v',
+                'w',
+                'x',
+                'y',
+                'z')
+which(letrs == consonants)
+
+```
+#Number of letters, vowels and consonants
+```{r}
+#' @title count_letters
+#' @description computes total number of letters, vowels, and consonants
+#' @input a character string
+#' @output letters, vowels, consonants, all numbers
+count_letters <- function(x) {
+  vowels <- c('a', 'e', 'i', 'o', 'u')
+  number_letters <- length(x)
+  number_vowels <- which(x == vowels)
+  number_consonants <- which(x == consonants)
+  return(number_letters, number_vowels, number_consonants)
+}
+
+count_letters(letrs)
+```
+

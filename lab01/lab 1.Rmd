@@ -1,0 +1,47 @@
+---
+title: "Lab 1"
+author: "Sofia"
+date: "January 25, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exercise 1
+```{r}
+80 + 20 + 527 + 10 + 1500 + 83
+phone <- 80
+phone
+```
+
+*Exercise 2*
+```{r}
+transportation <- 20
+groceries <- 527
+gym <- 10
+rent <- 1500
+other <- 83
+# variables
+total <- sum(transportation, groceries, gym, rent, other, phone)
+total
+#total expenses
+semester <- total * 5
+semester
+#semester expenses
+year <- semester * 2
+year
+#year expenses
+```
+
+# Exercise 3
+
+```{r}
+expenses <- c(phone, transportation, groceries, gym, rent, other)
+expenses
+barplot(expenses)
+decreasing <-  sort(expenses, decreasing = TRUE)
+barplot(decreasing)
+```
+

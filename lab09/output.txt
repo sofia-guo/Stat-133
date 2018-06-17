@@ -1,0 +1,12 @@
+---
+title: Output for lab09
+Author: Sofia Guo
+Date: 3-27-2018
+Output: html_document
+---
+
+This is the first line
+A 2nd line
+
+
+The quick brown fox jumps over the lazy dog

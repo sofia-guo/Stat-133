@@ -1,0 +1,35 @@
+    player              team             position        
+ Length:15          Length:15          Length:15         
+ Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character  
+                                                         
+                                                         
+                                                         
+     height         weight           age       
+ Min.   :75.0   Min.   :186.0   Min.   :19.00  
+ 1st Qu.:77.5   1st Qu.:194.5   1st Qu.:22.00  
+ Median :81.0   Median :220.0   Median :24.00  
+ Mean   :80.0   Mean   :224.3   Mean   :25.53  
+ 3rd Qu.:81.0   3rd Qu.:250.0   3rd Qu.:30.00  
+ Max.   :85.0   Max.   :275.0   Max.   :37.00  
+   experience     college              salary        
+ Min.   : 0.0   Length:15          Min.   :   73528  
+ 1st Qu.: 1.0   Class :character   1st Qu.: 1379670  
+ Median : 2.0   Mode  :character   Median : 5281680  
+ Mean   : 4.4                      Mean   : 5751279  
+ 3rd Qu.: 7.5                      3rd Qu.: 6895500  
+ Max.   :16.0                      Max.   :18000000  
+     games          minutes           points      
+ Min.   :20.00   Min.   : 160.0   Min.   :  57.0  
+ 1st Qu.:31.50   1st Qu.: 478.5   1st Qu.: 205.5  
+ Median :56.00   Median :1104.0   Median : 401.0  
+ Mean   :51.67   Mean   :1184.9   Mean   : 490.3  
+ 3rd Qu.:65.00   3rd Qu.:1683.5   3rd Qu.: 765.5  
+ Max.   :82.00   Max.   :2397.0   Max.   :1205.0  
+    points3          points2         points1     
+ Min.   :  0.00   Min.   : 10.0   Min.   : 10.0  
+ 1st Qu.:  1.00   1st Qu.: 75.0   1st Qu.: 28.0  
+ Median : 10.00   Median :126.0   Median : 59.0  
+ Mean   : 39.47   Mean   :149.9   Mean   : 72.0  
+ 3rd Qu.: 53.00   3rd Qu.:198.0   3rd Qu.:107.5  
+ Max.   :170.00   Max.   :360.0   Max.   :204.0  

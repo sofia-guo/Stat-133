@@ -1,0 +1,178 @@
+mkdir stat133-lab03
+cd stat133-lab03
+curl -O http://textfiles.com/food/bread.txt
+$ curl -O http://textfiles.com/food/bread.txt
+  % Total    % Received % Xferd  Average Speed   Time    Time
+                                 Dload  Upload   Total   Spent
+100  3611  100  3611    0     0  20994      0 --:--:-- --:--:-
+ls
+curl -O http://textfiles.com/food/btaco.txt
+curl -O http://textfiles.com/food/btaco.txt
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-100   900  100   900    0     0   4109      0 --:--:-- --:--:-- --:--:--  4109
+curl -O http://textfiles.com/food/1st_aid.txt
+ % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-100  2395  100  2395    0     0   5675      0 --:--:-- --:--:-- --:--:--  5675
+curl -O http://textfiles.com/food/beesherb.txt
+ % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-100  5293  100  5293    0     0  13036      0 --:--:-- --:--:-- --:--:-- 13036
+curl -O http://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv
+ % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-100 25478  100 25478    0     0   267k      0 --:--:-- --:--:-- --:--:--  267k
+curl -O http://www.math.uah.edu/stat/data/Fisher.csv
+ % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-100   220  100   220    0     0    705      0 --:--:-- --:--:-100   220  100   220    0     0    705      0 --:--:-- --:--:-- --:--:--   705
+curl -O http://web.pdx.edu/~gerbing/data/cars.csv
+curl -O http://web.pdx.edu/~gerbing/data/cars.csv
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-100 20964  100 20964    0     0   145k      0 --:--:-- --:--:-- --:--:--  145k
+ls
+$ ls -1
+1st_aid.txt
+beesherb.txt
+btaco.txt
+cars.csv
+data/
+Fisher.csv
+forestfires.csv
+ls -r
+forestfires.csv  data/     btaco.txt     1st_aid.txt
+Fisher.csv       cars.csv  beesherb.txt
+$ ls -t
+cars.csv    forestfires.csv  1st_aid.txt  data/
+Fisher.csv  beesherb.txt     btaco.txt
+cd data
+mkdir txt-files
+mkdir csv-files
+mv ../bread.txt txt-files/
+Sammy@mumble MINGW64 ~/stat133-lab03/data
+$ mv ../*.txt txt-files
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data
+$ cd txt-files
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data/txt-files
+$ ls
+1st_aid.txt  beesherb.txt  bread.txt  btaco.txt
+$ mv ../*.csv txt-files
+mv: cannot stat '../*.csv': No such file or directory
+
+Sammy@mumble MINGW64 ~/stat133-lab03
+$ cd data
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data
+$ mv ../*.csv txt-files
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data
+$ cd txt-files
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data/txt-files
+$ ls
+1st_aid.txt   bread.txt  cars.csv    forestfires.csv
+beesherb.txt  btaco.txt  Fisher.csv
+cd ../..
+mkdir copies
+$ cp ./data/txt-files/bread.txt ./copies
+$ cp ./data/txt-files/*.txt ./copies
+$ cp ./data/txt-files/*.csv ./copies
+cd copies
+mv ./bread.txt ./bread-recipe.txt
+$ mv ./Fisher.csv ./iris.csv
+
+Sammy@mumble MINGW64 ~/stat133-lab03/copies
+$ mv ./btaco.txt ./breakfast-taco.txt
+cd ..
+mv ./copies ./copy-files
+$ rm -r ./copy-files
+
+Sammy@mumble MINGW64 ~/stat133-lab03
+$ ls
+data/
+Sammy@mumble MINGW64 ~/stat133-lab03
+$ cd data
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data
+$ cd txt-files
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data/txt-files
+$ ls
+1st_aid.txt   bread.txt  cars.csv    forestfires.csv
+beesherb.txt  btaco.txt  Fisher.csv
+
+Sammy@mumble MINGW64 ~/stat133-lab03/data/txt-files
+$ ls -r
+forestfires.csv  cars.csv   bread.txt     1st_aid.txt
+Fisher.csv       btaco.txt  beesherb.txt
+
+GITHUB REPO Practice
+cd ../../../desktop
+mkdir demo-repo
+cd demo-repo
+git init
+Initialized empty Git repository in C:/Users/Sammy/Desktop/demo-repo/.git/
+echo "# Demo Repo" >> README.md
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+git add README.md
+ git add README.md
+warning: LF will be replaced by CRLF in README.md.
+The file will have its original line endings in your working directory.
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   README.md
+git commit -m "first commit"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'Sammy@mumble.(none)')
+Sammy@mumble MINGW64 ~/desktop/demo-repo (master)
+$  git config --global user.email "sofiaguo@berkeley.edu"
+
+Sammy@mumble MINGW64 ~/desktop/demo-repo (master)
+$ git config --global user.name "Sofia Guo"
+
+$ git commit -m "first commit"
+[master (root-commit) 25d6965] first commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+git remote add origin https://github.com/sofiaguo/demo-repo.git
+$ git remote -v
+origin  https://github.com/sofiaguo/demo-repo.git (fetch)
+origin  https://github.com/sofiaguo/demo-repo.git (push)
+$ git push origin master
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 226 bytes | 56.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/sofiaguo/demo-repo.git
+ * [new branch]      master -> master
+
+
+

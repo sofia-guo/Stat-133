@@ -1,0 +1,42 @@
+---
+title: "Lab 2 Report"
+author: "Sofia"
+date: "February 1, 2018"
+output: html_document
+---
+
+```{r}
+load('nba2017-salary-points.RData')
+
+```
+
+All the even elements of 'player'
+
+```{r}
+player[seq(2, length(player),2)]
+```
+
+All the odd elements in 'salary'
+
+```{r}
+salary[seq(1, length(salary), 2)]
+```
+
+Every multiple of five in 'team'
+
+```{r}
+team[seq(5, length(team), 5)]
+```
+
+Elements 10, 20, 40... in 'scored'
+
+```{r}
+scored[seq(10, length(scored), 10)]
+```
+
+All the even elements in 'team' but in reverse order
+
+```{r}
+team[rev(seq(2, length(team), 2))]
+```
+

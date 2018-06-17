@@ -1,0 +1,483 @@
+---
+title: "lab04-sofia-guo"
+author: "Sofia"
+date: "February 15, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Abalone Data Set Exploration
+
+What is the charater delimiter?
+Commas
+
+Is there a row for column names?
+No
+
+
+Are there any missing values? If so, how are they codified?
+No missing values
+
+What is the data type of each column?
+Sex is character; length, diameter, height, whole weight, shucked weight, viscera weight, shell weights are continuous. Rings are integers.
+
+##Bash Command Exploration
+
+Type of file: ASCII text, with CRLF line terminators
+
+File Word Count:
+4177 newline count, 4177 word count, 196050 byte count
+
+To obtain only the number of lines, we use wc -l abalone.data
+
+First 10 lines:
+M,0.455,0.365,0.095,0.514,0.2245,0.101,0.15,15
+M,0.35,0.265,0.09,0.2255,0.0995,0.0485,0.07,7
+F,0.53,0.42,0.135,0.677,0.2565,0.1415,0.21,9
+M,0.44,0.365,0.125,0.516,0.2155,0.114,0.155,10
+I,0.33,0.255,0.08,0.205,0.0895,0.0395,0.055,7
+I,0.425,0.3,0.095,0.3515,0.141,0.0775,0.12,8
+F,0.53,0.415,0.15,0.7775,0.237,0.1415,0.33,20
+F,0.545,0.425,0.125,0.768,0.294,0.1495,0.26,16
+M,0.475,0.37,0.125,0.5095,0.2165,0.1125,0.165,9
+F,0.55,0.44,0.15,0.8945,0.3145,0.151,0.32,19
+
+To show only the first 5 lines, use head -5:
+M,0.455,0.365,0.095,0.514,0.2245,0.101,0.15,15
+M,0.35,0.265,0.09,0.2255,0.0995,0.0485,0.07,7
+F,0.53,0.42,0.135,0.677,0.2565,0.1415,0.21,9
+M,0.44,0.365,0.125,0.516,0.2155,0.114,0.155,10
+I,0.33,0.255,0.08,0.205,0.0895,0.0395,0.055,7
+
+Last 10 lines: 
+M,0.5,0.38,0.125,0.577,0.269,0.1265,0.1535,9
+F,0.515,0.4,0.125,0.615,0.2865,0.123,0.1765,8
+M,0.52,0.385,0.165,0.791,0.375,0.18,0.1815,10
+M,0.55,0.43,0.13,0.8395,0.3155,0.1955,0.2405,10
+M,0.56,0.43,0.155,0.8675,0.4,0.172,0.229,8
+F,0.565,0.45,0.165,0.887,0.37,0.239,0.249,11
+M,0.59,0.44,0.135,0.966,0.439,0.2145,0.2605,10
+M,0.6,0.475,0.205,1.176,0.5255,0.2875,0.308,9
+F,0.625,0.485,0.15,1.0945,0.531,0.261,0.296,10
+M,0.71,0.555,0.195,1.9485,0.9455,0.3765,0.495,12
+
+Last 3 lines:
+M,0.6,0.475,0.205,1.176,0.5255,0.2875,0.308,9
+F,0.625,0.485,0.15,1.0945,0.531,0.261,0.296,10
+M,0.71,0.555,0.195,1.9485,0.9455,0.3765,0.495,12
+
+```{r}
+abalone <- read.table("abalone.data", sep = ",")
+
+head(abalone)
+tail(abalone)
+str(abalone, vec.len = 1)
+```
+
+#Creating names and data types for the data:
+
+```{r}
+column_names <- c(
+  'sex',
+  'length',
+  'diameter',
+  'height',
+  'whole_weight',
+  'shucked_weight',
+  'viscera_weight',
+  'shell_weight',
+  'rings'
+)
+
+column_types <- c(
+  'character',
+  'real',
+  'real',
+  'real',
+  'real',
+  'real',
+  'real',
+  'real',
+  'integer'   
+)
+
+abalone <- read.table(
+  'abalone.data',
+  col.names = column_names,
+  colClasses = column_types,
+  sep = ","
+)
+
+str(abalone, vec.len = 1)
+```
+
+#Assigning type and value to Abalone Table
+```{r}
+library(readr)
+
+head(read.csv("abalone.data", col.names = column_names, colClasses = column_types))
+
+ct <- 'cdddddddi'
+
+head(read_csv("abalone.data", col_names = column_names, col_types = ct))
+
+
+```
+
+#Pittsburgh Bridges Data Set
+Are there column names? 
+Yes
+What is the field separator? Commas
+Are there any missing values?
+Yes
+What is the character for missing values (if any)?
+?
+What is the data type of each variable (i.e. column)?
+River: n
+Location: n
+Erected: c,n (range of continuous numbers is given first and the possible values follow semicolon)
+Purpose: n
+Length: c,n
+Lanes: c,n
+Clear-G: n
+T-or-D: n
+Material: n
+Span: n
+Rel-L: n
+Type: n
+
+##Downloading the file:
+download.file('http://archive.ics.uci.edu/ml/machine-learning-databases/bridges/bridges.data.version1', 'bridges.data')
+
+```{r}
+bridges1 <- read.table('bridges.data')
+bridges2 <- read.csv('bridges.data')
+
+#create vector of classes for first five columns
+firstfive <- c(rep("character", 5), rep("NULL", 8))
+
+bridges3 <- read.table('bridges.data', header = FALSE, sep = ",", colClasses = firstfive)
+```
+##Exploring bridges1
+```{r}
+str(bridges1)
+summary(bridges1)
+head(bridges1)
+tail(bridges1)
+dim(bridges1)
+names(bridges1)
+colnames(bridges1)
+nrow(bridges1)
+ncol(bridges1)
+```
+
+#Creating Data Frames
+```{r}
+#GSW Data Frames
+Player <- c("Thompson", 
+            "Curry", 
+            "Green", 
+            "Durant", 
+            "Pachulia")
+Position <- c('SG', 'PG', 'PF', 'SF', 'C')
+Salary <- c(16663575, 12112359, 15330435, 26540100, 2898000)
+Points <- c(1742, 1999, 776, 1555, 426)
+PPG <- c(22.3, 25.3, 10.2, 25.1, 6.1)
+Rookie <- c(rep('False', 5))
+#data frame first
+GSW.data <- data.frame(Player,
+                       Position,
+                       Salary,
+                       Points,
+                       PPG,
+                       Rookie)
+#list first
+GSWlist.data <- list(Player,
+                     Position,
+                     Salary,
+                     Points,
+                     PPG,
+                     Rookie)
+GSW1 <- data.frame(GSWlist.data)
+Position <- factor(Position)
+class(Salary)
+Points <- as.integer(Points)
+class(Points)
+class(PPG)
+Rookie <- as.logical(Rookie)
+#reassign GSW1 to reflect new data types
+GSWlist.data <- list(Player,
+                     Position,
+                     Salary,
+                     Points,
+                     PPG,
+                     Rookie)
+GSW1 <- data.frame(GSWlist.data)
+
+#Use cbind
+bound <- cbind(Player, Position, Salary, Points, PPG, Rookie)
+
+#convert to data frame
+data.frame(bound)
+```
+#NBA Players
+```{r}
+dat <- read.csv('nba2017-players.csv', stringsAsFactors = FALSE)
+```
+
+Display the last 5 rows of the data.
+```{r}
+dat[446:441, ]
+```
+
+
+Display those rows associated to players having height less than 70 inches tall.
+```{r}
+heights70 <- dat[dat$'height' < 70, ] 
+heights70
+```
+
+
+Of those players that are centers (position C), display their names and salaries.
+```{r}
+C <- dat[dat$'position' == 'C', ]
+C[ ,c(1,9)]
+```
+
+Create a data frame durant with Kevin Durant's information (i.e. row).
+```{r}
+dat[dat$'player' == 'Kevin Durant', ]
+```
+
+
+Create a data frame ucla with the data of players from college UCLA ("University of California, Los Angeles").
+```{r}
+ucla <- dat[dat$college == "University of California, Los Angeles", ]
+ucla
+```
+
+
+Create a data frame rookies with those players with 0 years of experience.
+```{r}
+rookies <- dat[dat$experience == 0, ]
+rookies
+```
+
+
+Create a data frame rookie_centers with the data of Center rookie players.
+```{r}
+rookie_centers <- rookies[rookies$'position' == "C", ]
+rookie_centers
+```
+
+Create a data frame top_players for players with more than 50 games and more than 100 minutes played.
+```{r}
+top_players <- dat[dat$minutes > 100 & dat$games > 50, ]
+top_players
+```
+
+
+What's the largest height value?
+```{r}
+max(dat$height)
+```
+
+
+What's the minimum height value?
+```{r}
+min(dat$height)
+```
+
+
+What's the overall average height?
+```{r}
+mean(dat$height)
+```
+
+
+Who is the tallest player?
+```{r}
+tallest <- dat[dat$height == max(dat$height), ]
+tallest[ ,1]
+```
+
+
+Who is the shortest player?
+```{r}
+shortest <- dat[dat$height == min(dat$height), ]
+shortest[ ,1]
+```
+
+Which are the unique teams?
+```{r}
+unique(dat$team)
+```
+
+How many different teams?
+```{r}
+length(unique(dat$team))
+```
+
+Who is the oldest player?
+```{r}
+dat[dat$age == max(dat$age), ][ ,1]
+```
+
+What is the median salary of all players?
+```{r}
+median(dat$salary)
+```
+
+
+What is the median salary of the players with 10 years of experience or more?
+```{r}
+players10 <- dat[dat$experience <= 10, ]
+median(players10$salary)
+```
+
+What is the median salary of Shooting Guards (SG) and Point Guards (PG)?
+```{r}
+SGPG <- dat[dat$position == 'SG' | dat$position == 'PG', ]
+median(SGPG$salary)
+```
+
+What is the median salary of Power Forwards (PF), 29 years or older, and 74 inches tall or less?
+```{r}
+spec <- dat[dat$position == 'PF' | dat$age >= 29 | dat$height <= 74, ]
+median(spec$salary)
+```
+
+How many players scored 4 points or less?
+```{r}
+nrow(dat[dat$points <= 4, ])
+```
+
+Who are those players who scored 4 points or less?
+```{r}
+dat[dat$points <= 4, 1]
+```
+
+Who is the player with 0 points?
+```{r}
+dat[dat$points == 0,1]
+```
+
+How many players are from "University of California, Berkeley"?
+```{r}
+nrow(dat[dat$college == "University of California, Berkeley", ])
+```
+
+Are there any players from "University of Notre Dame"? If so how many and who are they?
+```{r}
+ND <- dat[dat$college == "University of Notre Dame", 1]
+ND
+length(ND)
+```
+
+Are there any players with weight greater than 260 pounds? If so how many and who are they?
+```{r}
+weight260 <- dat[dat$weight > 260, 1]
+weight260
+length(weight260)
+```
+
+How many players did not attend a college in the US?
+NBA Players must be drafted through US colleges
+
+Who is the player with the maximum rate of points per minute?
+```{r}
+dat[,"rate"] <- dat[, 'points'] / dat[, 'minutes']
+
+dat[dat$rate == max(dat$rate),1]
+
+```
+
+Who is the player with the maximum rate of three-points per minute?
+```{r}
+dat[,"rate3"] <- dat[, 'points3'] / dat[, 'minutes']
+
+dat[dat$rate3 == max(dat$rate3),1]
+
+```
+
+Who is the player with the maximum rate of two-points per minute?
+```{r}
+dat[,"rate2"] <- dat[, 'points2'] / dat[, 'minutes']
+
+dat[dat$rate2 == max(dat$rate2),1]
+
+```
+
+Who is the player with the maximum rate of one-points (free-throws) per minute?
+```{r}
+dat[,"rate1"] <- dat[, 'points1'] / dat[, 'minutes']
+
+dat[dat$rate1 == max(dat$rate1),1]
+
+```
+
+Create a data frame gsw with the name, height, weight of Golden State Warriors (GSW)
+```{r}
+gsw <- dat[dat$team == 'GSW', c(1,4,5)]
+gsw
+```
+
+Display the data in gsw sorted by height in increasing order (hint: see ?sort and ?order)
+```{r}
+gsw[order(gsw$height), ]
+```
+
+Display the data in gsw by weight in decreasing order (hint: see ?sort and ?order)
+```{r}
+gsw[order(gsw$weight, decreasing=TRUE), ]
+```
+
+Display the player name, team, and salary, of the top 5 highest-paid players (hint: see ?sort and ?order)
+```{r}
+salary_sorted <- dat[order(dat$salary, decreasing=TRUE), ]
+
+salary_sorted[1:5, c('player', 'team', 'salary')]
+
+```
+
+Display the player name, team, and points3, of the top 10 three-point players (hint: see ?sort and ?order)
+```{r}
+points3_sorted <- dat[order(dat$points3, decreasing=TRUE), ]
+
+salary_sorted[1:10, c('player', 'team', 'points3')]
+```
+
+Quick try: Using just bracket notation, try to create a data frame with two columns: the team name, and the team payroll (addition of all player salaries).
+```{r}
+unique_team <- dat[dat$team == unique(dat$team), ]
+sum(unique_team$salary)
+#it's pretty much impossible with just brackets because I need a way to group by team first.
+```
+
+
+Create a data frame with the average height, average weight, and average age, grouped by position
+```{r}
+aggregate(dat[ ,c('height', 'weight', 'age')], by = list(dat$position), FUN = mean)
+```
+
+Create a data frame with the average height, average weight, and average age, grouped by team
+```{r}
+aggregate(dat[, c('height', 'weight', 'age')], by = list(dat$team), FUN = mean)
+```
+
+Create a data frame with the average height, average weight, and average age, grouped by team and position.
+```{r}
+aggregate(dat[ ,c('height', 'weight', 'age')], by = list(dat$position,dat$team), FUN = mean)
+```
+
+Difficult: Create a data frame with the minimum salary, median salary, mean salary, and maximum salary, grouped by team and position.
+```{r}
+
+x <- dat[ ,'salary']
+aggregate(x, by = list(dat$position, dat$team), FUN = function(x) c(mi = min(x), md = median(x), mn = mean(x), mx = max(x) ) )
+
+```
+

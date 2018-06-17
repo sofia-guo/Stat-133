@@ -1,0 +1,450 @@
+---
+title: "lab07-sofia-guo"
+author: "Sofia"
+date: "March 8, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+
+#Basic Functions
+```{r}
+#' @title f(x)
+#' @description square of variable
+#' @param x numeric input
+#' @return x^2
+f <- function(x =1) {
+  square <- x*x
+  return(square)
+}
+
+#' @title g(x)
+#' @description linear transformation of x
+#' @param x numeric input
+#' @return 2x +5
+g <- function(x=1) {
+  linr <- 2*x + 5
+  return(linr)
+}
+
+#test functions
+f(2)
+f(-5)
+
+g(0)
+g(-5/2)
+
+#Composite functions
+
+#' @title fog(x)
+#' @description composite func f(g(x))
+#' @param numeric g(x)
+#' @return f of g(x)
+fog <- function(x=1) {
+  gx <- g(x)
+  fg <- f(gx)
+  return(fg)
+}
+
+#' @title gof(x)
+#' @description composite func g(f(x))
+#' @param numeric f(x)
+#' @return g of f(x)
+gof <- function(x=1) {
+  fx <- f(x)
+  gf <- g(fx)
+  return(gf)
+}
+
+#test composite functions
+fog(2)
+fog(-5)
+
+gof(5)
+gof(-5/2)
+```
+#Pythagoras
+```{r}
+#Pythagoras function
+#' @title Pythagoras
+#' @description calculate length hypotenuse
+#' @param a and b numeric 
+#' @return c hypotenuse of triangle with sides a and b
+pythagoras <- function(a=1, b=1) {
+  sqra <- a**2
+  sqrb <- b**2
+  c <- sqrt(sqra + sqrb)
+  return(c)
+}
+
+#test pythagoras (3, 4)
+pythagoras(3,4)
+
+#modify pythagoras
+#' @title Pythagoras
+#' @description calculate length hypotenuse
+#' @param a numeric 
+#' @return c hypotenuse of triangle with sides a and b
+pythagoras <- function(a=1) {
+  sqra <- a**2
+  sqrb <- sqra
+  c <- sqrt(sqra + sqrb)
+  return(c)
+}
+
+#test pythagoras (5)
+pythagoras(5)
+```
+#Area of a circle
+```{r}
+#write function circle_area() to calc area of circle
+#' @title circle_area()
+#' @description calculate the area of circle
+#' @param r radius numeric input
+#' @return area = pi * r^2
+circle_area <- function(radius=1) {
+  area <- pi * radius^2
+  return(area)
+}
+
+#test default
+circle_area()
+#test radius 3
+circle_area(radius = 3)
+
+#modify function circle_area()
+#' @title circle_area()
+#' @description calculate the area of circle
+#' @param r radius numeric input
+#' @return area = pi * r^2
+circle_area <- function(radius=1) {
+  if (radius < 0) {
+    stop("radius must be positive")
+  }
+  area <- pi * radius^2
+  return(area)
+}
+
+#test bad radius
+circle_area(radius = -2)
+```
+#Area of a cylinder
+```{r}
+#Area of a cylinder
+#write function to compute area of cylinder
+#' @title cylinder_area
+#' @description calculate area of cylinder
+#' @param radius and height numeric inputs
+#' @return 2*pi*radius*height + 2*circle_area()
+cylinder_area <-function(radius = 1, height = 1) {
+  if (radius < 0) {
+    stop('radius must be positive')
+  }
+  if (height < 0) {
+    stop('height must be positive')
+  } 
+  a1 <- 2*pi*radius*height
+  a2 <- 2*circle_area(radius)
+  return(a1 + a2)
+}
+
+#default (radisu =1, height = 1)
+cylinder_area()
+
+#radius 2, height 3
+cylinder_area(radius = 2, height = 3)
+
+# bad radius
+cylinder_area(radius = -2, height = 1)
+
+# bad height
+cylinder_area(radius = 2, height = -1)
+
+# bad radius and height
+cylinder_area(radius = -2, height = -1)
+```
+#Volume of a cylinder
+```{r}
+#Volume of a cylinder
+#write function cylinder_volume() calling circle_area()
+#' @title cylinder_volume()
+#' @description calculate cylinder volume
+#' @param radius and height numeric inputs
+#' @return pi*r^2*h
+cylinder_volume <- function(radius = 1, height =1) {
+  if (height < 0) {
+    stop("height must be positive")
+  }
+  circa <- circle_area(radius)
+  cylv <- circa*height
+  return(cylv)
+}
+
+# default (radius 1, height 1)
+cylinder_volume()
+
+cylinder_volume(radius = 3, height = 10)
+cylinder_volume(height = 10, radius = 3)
+```
+
+#Unit Conversion Formulas
+```{r}
+#Unit Conversion Formulas
+#miles to km
+#' @title miles2kms()
+#' @descrition convert miles to km
+#' @parameters miles input numeric
+#' @return kilometers
+miles2kms <- function(miles = 1) {
+  kms <- miles*1.6
+  return(kms)
+}
+
+#create table 1-10 mi then 10 to 100 in 10 mile steps
+miles <- c(1:10, seq(20, 100, 10) )
+mi <- data.frame(miles)
+library(dplyr)
+mutate(mi, kms = miles2kms(miles))
+
+#Gallons to Liters and vice versa
+#gal to liters
+#' @title gallons2liters()
+#' @descrition convert gallons to liters
+#' @parameters gallons input numeric
+#' @return liters
+gallons2liters <- function(gallons = 1) {
+  lts <- gallons*3.78541
+  return(lts)
+}
+
+#Inverse function using gallons2liters()
+#' @title liters2gallons()
+#' @descrition convert liters to gallons
+#' @parameters liters input numeric
+#' @return gallons
+liters2gallons <- function(liters = 1) {
+  gal <- liters/3.78541
+  return(gal)
+}
+
+#create table 1-10 li then 10 to 100 in 10 li steps
+liters <- c(1:10, seq(20, 100, 10) )
+li <- data.frame(liters)
+library(dplyr)
+mutate(li, gallons = liters2gallons(liters))
+
+#seconds to years
+#' @title seconds2years()
+#' @description convert seconds to years
+#' @param seconds numeric input
+#' @return seconds/3.154*10^7 = years
+seconds2years <- function(seconds = 1) {
+  yrs <- seconds/(3.154*10^7)
+  return(yrs)
+}
+
+#is 79 years greater than or equal to one billion seconds?
+seconds2years(10^9) <= 79
+#baby can live at least 31.70 years since it's less than 79
+
+```
+#Gaussian Function
+```{r}
+#Gaussian Function
+#' @title gaussian()
+#' @description calculate the distribution of data set
+#' @param x data inputs, m mean, s std (all numeric)
+#' @return distribution function
+gaussian <- function(x = 1, m =1, s =2) {
+  coef <- 1/(s*sqrt(2*pi))
+  exponent <- (-1/2)*((x-m)/s)^2
+  e <- exp(1)
+  gx <- coef*e^exponent
+  return(gx)
+}
+
+#evaluate
+gaussian(x =1, m = 0, s = 2)
+#compare with dnorm
+dnorm(x=1, mean=0, sd=2)
+
+#try gaussian with vector and plot
+g <- gaussian(x = seq(-4.5, 4.5, by = 0.1), m =0, s=2)
+plot(g, type = "l")
+```
+#Polynomials
+```{r}
+#Polynomials
+#f(x)=x^3
+poly1 <- function(x) {
+  (x^3)
+}
+
+x <- seq(-4, 4)
+y <- poly1(x)
+plot(x, y, type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+title(main = expression(paste(f(x), ' = ', x^3)))
+
+#f(x)=(x^2???1)(x+3)^3
+poly2 <- function(x) {
+  (x^2 -1)*(x+3)^3
+}
+
+x <- seq(-4, 4)
+y <- poly2(x)
+plot(x, y, type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+title(main = expression(paste(f(x), ' = ', (x^2 -1), (x+3)^3)))
+
+#f(x)=(x2???1)(x2???9)
+poly3 <- function(x) {
+  (x^2 -1)*(x^2 -9)
+}
+
+x <- seq(-10, 10)
+y <- poly3(x)
+plot(x, y, type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+title(main = expression(paste(f(x), ' = ', (x^2 -1), (x^2-9))))
+```
+#Descriptive Statistics and If's
+```{r}
+#Descriptive Statistics
+descriptive <- function(x) {
+  print(summary(x))
+}
+
+#If conditionals
+z <- 100*pi
+# Fill in the following if-else statements. You may (or may not) 
+# have to add or subtract else if or else statements.
+if (z > 100) {100
+  
+} else if (z<0) {0
+}
+
+#Multiple If's
+#write function is_even() determining whether number is even
+is_even <- function(x){
+  if (x %% 2 == 0)
+  {TRUE}
+  else
+  {FALSE}
+}
+#TEST
+# even number
+is_even(10)
+
+# odd number
+is_even(33)
+
+# not a number
+is_even('a')
+
+#Odd number
+is_odd <- function(x){
+  if (x %% 2 == 0)
+  {FALSE}
+  else
+  {TRUE}
+}
+#TEST ODD
+# odd number
+is_odd(1)
+
+# even number
+is_odd(4)
+
+# not a number
+is_odd('a')
+```
+#Function Grade
+```{r}
+#Write function grade() taking score argument 1-100 and returns letter grade
+grade <- function(score){
+  if (score <0) {
+    stop(print('score must be a number between 0 and 100'))
+  }
+  if (score < 60) {
+    'D'
+  } else if (score >=70 & score <80 ) {
+    'C'
+  } else if (score >= 80 & score < 90) {
+      'B'
+  } else if (score >= 90 & score <= 100) {
+      'A'}
+}
+
+# grade "A"
+grade(score = 90)
+
+# grade "B"
+grade(score = 89.9999)
+
+# grade "C"
+grade(score = 70.0000001)
+
+# grade "F"
+grade(score = 50)
+
+grade(-50)
+```
+
+#Switch functions
+```{r}
+#miles to inches
+miles2inches <- function(x=1) {
+  x*63360
+}
+
+#miles to feet
+miles2feet <- function(x=1) {
+  x*5280
+}
+
+#miles to yards
+miles2yards <- function(x=1) {
+  x*1760
+}
+
+#miles to meters
+miles2meters <- function(x=1) {
+  x/0.00062137
+}
+
+#miles to kms
+miles2kms <- function(x=1) {
+  x/0.62137
+}
+
+#Test
+miles2inches(2)
+miles2feet(2)
+miles2yards(2)
+miles2meters(2)
+miles2kms(2)
+```
+#Using switch()
+```{r}
+#Using switch
+convert <- function(x, to = 'km') {
+  switch(to,
+         'km' = miles2kms(x),
+         'in' = miles2inches(x),
+         'ft' = miles2feet(x),
+         'yd' = miles2yards(x),
+         'm' = miles2meters(x)
+         )
+}
+#Test convert
+convert(3, "in")
+convert(3, "ft")
+convert(3, "yd")
+convert(3, "m")
+convert(3, "km")
+```
+
